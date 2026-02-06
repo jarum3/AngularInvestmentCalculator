@@ -1,0 +1,14 @@
+{
+	"image": "mcr.microsoft.com/devcontainers/universal:2",
+	"features": {
+		"ghcr.io/stu-bell/devcontainer-features/node:0": {
+			"nodeGypDependencies": true,
+			"installYarnUsingApt": true,
+			"pnpmVersion": "latest",
+			"nvmVersion": "latest"
+		},
+		"ghcr.io/devcontainers-extra/features/angular-cli:2": {
+			"version": "latest"
+		}
+	}
+}
