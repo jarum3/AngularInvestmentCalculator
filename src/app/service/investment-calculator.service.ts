@@ -1,36 +1,40 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
+import { type InvestmentData } from '../../models/investment-data';
+import { type YearData } from '../../models/year-data';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InvestmentCalculatorService {
+  annualData = signal<YearData[]>([]);
 
   constructor() { }
 
-  // Use the below code as a help
-// e.g., integrate it into a service or component
-// You may need to tweak it, depending on where and how you use it
-
-calculateInvestmentResults(initialInvestment: number, duration: number, annualInvestment: number, expectedReturn: number) {
-  const annualData = [];
-  let investmentValue = initialInvestment;
-
-  for (let i = 0; i < duration; i++) {
-    const year = i + 1;
-    const interestEarnedInYear = investmentValue * (expectedReturn / 100);
-    investmentValue += interestEarnedInYear + annualInvestment;
-    const totalInterest =
-      investmentValue - annualInvestment * year - initialInvestment;
-    annualData.push({
-      year: year,
-      interest: interestEarnedInYear,
-      valueEndOfYear: investmentValue,
-      annualInvestment: annualInvestment,
-      totalInterest: totalInterest,
-      totalAmountInvested: initialInvestment + annualInvestment * year,
-    });
+  getAnnualData(): WritableSignal<YearData[]> {
+    return this.annualData;
   }
 
-  return annualData;
-}
+  private addItem(year: YearData) {
+    this.annualData.update(currentYears => [...currentYears, year]);
+  }
+  calculateInvestmentResults(investmentData: InvestmentData) {
+    let investmentValue = investmentData.initialInvestment;
+
+    for (let i = 0; i < investmentData.duration; i++) {
+      const year = i + 1;
+      const interestEarnedInYear = investmentValue * (investmentData.expectedReturn / 100);
+      investmentValue += interestEarnedInYear + investmentData.annualInvestment;
+      const totalInterest =
+        investmentValue - investmentData.annualInvestment * year - investmentData.initialInvestment;
+      this.addItem({
+        year: year,
+        interest: interestEarnedInYear,
+        valueEndOfYear: investmentValue,
+        annualInvestment: investmentData.annualInvestment,
+        totalInterest: totalInterest,
+        totalAmountInvested: investmentData.initialInvestment + investmentData.annualInvestment * year,
+      });
+    }
+
+  }
 }

@@ -1,1 +1,20 @@
-<p>investment-results works!</p>
+@if (calculator.annualData().length > 0) {
+<table>
+    <thead>
+        <th>Year</th>
+        <th>Investment Value</th>
+        <th>Interest (Year)</th>
+        <th>Total Interest</th>
+        <th>Invested Capital</th>
+    </thead>
+    @for (year of calculator.annualData(); track year.year) {
+    <tr>
+        <td>{{year.year}}</td>
+        <td>{{year.valueEndOfYear | currency}}</td>
+        <td>{{year.interest | currency}}</td>
+        <td>{{year.totalInterest | currency}}</td>
+        <td>{{year.totalAmountInvested | currency}}</td>
+    </tr>
+    }
+</table>
+}
