@@ -23,6 +23,7 @@ export class UserInputComponent {
   @Output() annualData = new EventEmitter<YearData[]>;
 
   calculateData() {
+    this.calculator.annualData.set([]);
     this.calculator.calculateInvestmentResults(this.investmentData);
   }
 

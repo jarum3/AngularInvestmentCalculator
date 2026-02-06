@@ -7,7 +7,7 @@
         <th>Total Interest</th>
         <th>Invested Capital</th>
     </thead>
-    @for (year of calculator.annualData(); track year.year) {
+    <tbody>    @for (year of calculator.annualData(); track year.year) {
     <tr>
         <td>{{year.year}}</td>
         <td>{{year.valueEndOfYear | currency}}</td>
@@ -16,5 +16,6 @@
         <td>{{year.totalAmountInvested | currency}}</td>
     </tr>
     }
+</tbody>
 </table>
 }
